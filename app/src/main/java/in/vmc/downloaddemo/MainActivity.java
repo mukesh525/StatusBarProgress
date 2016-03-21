@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -27,13 +29,15 @@ public class MainActivity extends AppCompatActivity {
     private android.support.v4.app.NotificationCompat.Builder mBuilder;
     int id = 1;
     private static String file_url = "http://api.androidhive.info/progressdialog/hive.jpg";
+    private ProgressBar progressbar;
+    private int progressStatus;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        progressbar = (ProgressBar) findViewById(R.id.progressBar2);
         Button b1 = (Button) findViewById(R.id.notificationButton);
         b1.setOnClickListener(new View.OnClickListener() {
 
@@ -59,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             // Displays the progress bar for the first time.
             mBuilder.setProgress(100, 0, false);
+         //   progressbar.setProgress(0);
             mNotifyManager.notify(id, mBuilder.build());
         }
 
@@ -71,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             mBuilder.setContentInfo(values[0] + "%");
             mBuilder.setProgress(100, values[0], false);
             mNotifyManager.notify(id, mBuilder.build());
+          //  progressbar.setProgress(values[0]);
             super.onProgressUpdate(values);
         }
 
